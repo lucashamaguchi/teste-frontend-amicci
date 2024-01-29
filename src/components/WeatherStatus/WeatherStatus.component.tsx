@@ -1,17 +1,30 @@
 import React from 'react';
+import Button from "@mui/material/Button";
+import { ICityProperties } from '../CityInput/CityInput.component';
+import getWeatherFromCoords from '../../services/getWeatherFromCoords';
 
 export interface IWeatherStatusProps {
-  city: string | null;
+  cityProps: ICityProperties | null;
 }
 
-function component(props: IWeatherStatusProps) {
+function WeatherStatusComponent(props: IWeatherStatusProps) {
+  const getWeather = async () => {
+    if (props.cityProps?.coords) {
+      const weather = await getWeatherFromCoords(props.cityProps?.coords)
+      console.log(weather)
+    }
+  }
+
   return (
     <div>
         {/* get weather from city */}
         {/* display weather */}
         here goes the status
+      <Button variant="outlined" onClick={getWeather}>
+        Get Weather
+      </Button>
     </div>
   );
 }
 
-export default component;
+export default WeatherStatusComponent;
