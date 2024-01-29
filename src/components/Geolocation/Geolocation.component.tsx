@@ -34,6 +34,7 @@ function GeolocationComponent(props: Readonly<IGeolocationProps>) {
   };
 
   const getGeolocationClick = async () => {
+    props.onSelect({});
     const coords = await getCoords();
     const resp = await getCityFromCoordinates({
       lat: coords.latitude,
