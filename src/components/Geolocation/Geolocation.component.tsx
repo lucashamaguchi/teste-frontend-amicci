@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Button from "@mui/material/Button";
 import { ICityProperties } from "../CityInput/CityInput.component";
 import getCityFromCoordinates from "../../services/getCityFromCoordinates";
@@ -7,7 +7,7 @@ export interface IGeolocationProps {
   onSelect: (cityProperties: ICityProperties) => void;
 }
 
-function GeolocationComponent(props: IGeolocationProps) {
+function GeolocationComponent(props: Readonly<IGeolocationProps>) {
   const getCoords = (): Promise<{
     longitude: number | null;
     latitude: number | null;
@@ -28,7 +28,7 @@ function GeolocationComponent(props: IGeolocationProps) {
           }
         );
       } else {
-        reject("Geolocation not supported");
+        reject(new Error("Geolocation not supported"));
       }
     });
   };
@@ -37,7 +37,7 @@ function GeolocationComponent(props: IGeolocationProps) {
     const coords = await getCoords();
     const resp = await getCityFromCoordinates({lat: coords.latitude, lng: coords.longitude});
     const cityName = resp.results[0].address_components[3].long_name;
-    props.onSelect({name: cityName});
+    props.onSelect({name: cityName, coords: { lat: coords.latitude, lng: coords.longitude }});
   };
 
   return (
