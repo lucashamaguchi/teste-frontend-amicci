@@ -2,8 +2,9 @@ import axios from 'axios';
 
 // import IAddress from '@interfaces/common/IAddress';
 
-async function getCityFromCoordinates(coords: {lat: number, lng: number}) {
-  const response = await axios.get<any>(`https://brasilapi.com.br/api/cep/v1/${zipcode}`);
+async function getCityFromCoordinates(coords: {lat: number | null, lng: number | null}) {
+  const key = 'AIzaSyDtrsE6xhEUyV7feXRpDm3C11-XONrH7MM';
+  const response = await axios.get<any>(`https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.lat},${coords.lng}&key=${key}`);
   return response.data;
 }
 
